@@ -6,7 +6,7 @@
 #include "LUMethod.h"
 
 #define p 1
-#define q 3
+#define q 4
 #define n 6
 
 using namespace std;

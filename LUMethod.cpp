@@ -16,26 +16,26 @@ vector<double> LUMethod::solve()
 	return x;
 }
 
-void LUMethod::calculateY() //Ly = d, где d - из LUx = d
+void LUMethod::calculateY() //решаем Ly = d, где d - из LUx = d
 {
 	y.resize(matrix.size()); 
-	for (int i = 0; i < matrix.size(); i++) {
+	for (int i = 0; i < matrix.size(); i++) { //y1 = b1/l11
 		y[i] = matrix[i].back();
 	}
-	for (int i = 1; i < matrix.size(); i++) {
+	for (int i = 1; i < matrix.size(); i++) { //yk = lkk - lkiyi, i = 2, n
 		for (int k = 0; k < i; k++) {
 			y[i] -= L[i][k] * y[k];
 		}
 	}
 }
 
-void LUMethod::calculateX() //Ux = y
+void LUMethod::calculateX() //решаем Ux = y
 {
 	x.resize(y.size());
-	for (int i = 0; i < y.size(); i++) {
+	for (int i = 0; i < y.size(); i++) { //xn = yn
 		x[i] = y[i];
 	}
-	for (int i = y.size() - 1; i >= 0; --i) {
+	for (int i = y.size() - 1; i >= 0; --i) { //xk = yk - sum(ukj*xj), k = n-1, 1
 		for (int j = i + 1; j < y.size(); j++) {
 			x[i] -= U[i][j] * x[j];
 		}
@@ -45,7 +45,7 @@ void LUMethod::calculateX() //Ux = y
 
 void LUMethod::LU() //делаем матрицу и выводим
 {
-	L.resize(matrix.size(), vector<double>(matrix.size()));
+	L.resize(matrix.size(), vector<double>(matrix.size())); //тк вектора созданы, приводим их в нужный вид
 	U.resize(matrix.size(), vector<double>(matrix.size()));
 	double sum = 0;
 
@@ -61,7 +61,7 @@ void LUMethod::LU() //делаем матрицу и выводим
 			}
 			U[i][j] = matrix[i][j] - sum;
 			if (j < i) {
-				L[j][i] = 0;
+				L[j][i] = 0; //обратная часть матрицы
 			}
 			else {
 				sum = 0;
@@ -80,8 +80,9 @@ void LUMethod::LU() //делаем матрицу и выводим
 	cout << fixed << showpoint;
 	cout << setprecision(7);
 
-	for (vector<double> a : L) { //записываем из L в вектор a значения
-		for (double f : a) {
+	for (vector<double> temp : L) { //записываем из L в вектор a значения, тип вектора - название переменной для записи - вектор
+		//замена конструкции int i = 0, i < a.size, i++...
+		for (double f : temp) {
 			cout << f << "\t";
 		}
 		cout << "\n";
@@ -89,8 +90,8 @@ void LUMethod::LU() //делаем матрицу и выводим
 
 	cout << "U" << "\n";
 
-	for (vector<double> a : U) {
-		for (double f : a) {
+	for (vector<double> temp : U) {
+		for (double f : temp) {
 			cout << f << "\t";
 		}
 		cout << "\n";
